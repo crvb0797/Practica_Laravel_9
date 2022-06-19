@@ -10,13 +10,10 @@ Route::controller(PageController::class)->group(function () {
     Route::get('blog/{post:slug}', 'post')->name('post');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::redirect('dashboard', 'posts')->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    /* PANEL ADMINISTRATIVO */
-    Route::resource('posts', PostController::class)->except(['show']);
-});
+
+/* PANEL ADMINISTRATIVO */
+Route::resource('posts', PostController::class)->middleware(['auth'])->except(['show']);
 
 require __DIR__ . '/auth.php';
